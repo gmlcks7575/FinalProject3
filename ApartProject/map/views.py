@@ -16,11 +16,12 @@ def cssTest(request):
 @csrf_exempt
 def apart(request):
     search = request.POST['search']
-    datas = Addrdata.objects.filter(apt__contains=search).values()
+    datas = Addrapt.objects.filter(apt__contains=search).values()
     df = pd.DataFrame(datas)
 
     apt = [i for i in df['apt']]
     juso = [i for i in df['addr']]
+    dong = [i for i in df['dong']]
     
     apt1 = apt
     aptJusoJson = {}
