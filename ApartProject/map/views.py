@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from map.models import Test, Addrdata
+from map.models import Test, Addrdata, Addrapt
 import pandas as pd
 import json
 import numpy as np
@@ -18,17 +18,19 @@ def apart(request):
     search = request.POST['search']
     datas = Addrapt.objects.filter(apt__contains=search).values()
     df = pd.DataFrame(datas)
-
-    apt = [i for i in df['apt']]
+    print(df)
+    
+    apt = [i for i in df['apt'] + df['dong']]
     juso = [i for i in df['addr']]
     dong = [i for i in df['dong']]
     
-    apt1 = apt
-    aptJusoJson = {}
-    for apt, juso in zip(apt1, juso):
-        aptJusoJson[apt]=juso
     
-    apt = [i for i in df['apt']]
+    aptJusoJson = {}
+    for apt, juso in zip(apt, juso):
+        aptJusoJson[apt]=  juso 
+    
+    print(aptJusoJson)
+    apt = [i for i in df['apt'] + df['dong']]
     
     return JsonResponse({'juso':juso, 'apartdata':apt, 'aptJusoJson':aptJusoJson})
 
